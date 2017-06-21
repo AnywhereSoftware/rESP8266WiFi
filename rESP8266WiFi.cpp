@@ -21,7 +21,11 @@ namespace B4R {
 		return Connect2(SSID, NULL);
 	}
 	bool B4RESPWiFi::Connect2(B4RString* SSID, B4RString* Password) {
+		ULong start = millis();
 		WiFi.begin(SSID->data, Password != NULL ? Password->data : NULL);
+		while (WiFi.status() != WL_CONNECTED && millis() - start < 15000){
+			delay(500);
+		}
 		return WiFi.waitForConnectResult() == WL_CONNECTED;
 	}
 	bool B4RESPWiFi::StartAccessPoint(B4RString* SSID) {
@@ -99,7 +103,6 @@ namespace B4R {
 		WiFiServerSocket* server = (WiFiServerSocket*)ess;
 		server->wifiClient = server->server->available();
 		if (server->wifiClient) {
-			::Serial.println("available");
 			pollers.remove(&server->pnode);
 			server->ethSocket.client.setClient(&server->wifiClient);
 			server->newConnection(&server->ethSocket);

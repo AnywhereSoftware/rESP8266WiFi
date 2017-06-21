@@ -2,12 +2,13 @@
 #include "B4RDefines.h"
 #ifdef ESP32
 #include <WiFi.h>
+#include <WiFiClientSecure.h>
 #else
 #include <ESP8266WiFi.h>
 #endif
 #include <WiFiUdp.h>
 
-//~version: 1.20
+//~version: 1.30
 namespace B4R {
 	//~shortname: ESP8266WiFi
 	class B4RESPWiFi {
@@ -106,13 +107,8 @@ namespace B4R {
 		
 			//~hide
 			WiFiSSLSocket();
-			#ifndef ESP32
 			//~hide
 			WiFiClientSecure wifiClient;
-			#else
-			//~hide
-			WiFiClient wifiClient;
-			#endif
 			
 		
 			//~hide
